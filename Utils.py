@@ -21,3 +21,7 @@ def pick5cards(cards):
 		cards.remove(card)
 		pickedcards.append(card)
 	return pickedcards
+
+def printCards(cards, deck):
+	for cardnumber in cards:
+		print("Card Number :" + str(deck[cardnumber].number) + ", Suite :" + deck[cardnumber].suite )

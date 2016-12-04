@@ -7,7 +7,7 @@ import pickle
 
 
 TCP_IP = '127.0.0.1'
-TCP_PORT = 5001
+TCP_PORT = 5002
 BUFFER_SIZE = 1024
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,21 +27,17 @@ en_key, de_key = generate_keys(prime)
 
 # receive encrypted cards from Alice
 encryted_card_numbers = receive(s)
-print(encryted_card_numbers)
+#print(encryted_card_numbers)
 
 # pick random 5 cards for me
 mycards = pick5cards(encryted_card_numbers)
 # pick random 5 cards for alice
 alicecards = pick5cards(encryted_card_numbers)
 
-#print(mycards)
-#print(alicecards)
-
 # encrypt my cards
 for i,card in enumerate(mycards):
 	mycards[i] = encrypt(card, en_key, prime)
 
-#print(mycards)
 #send alice cards
 send(s, alicecards)
 #send my cards
@@ -54,7 +50,8 @@ mycards = receive(s)
 for index, card in enumerate(mycards):
 	mycards[index] = decrypt(card, de_key, prime)
 
-print(mycards)
+print("My Cards are")
+printCards(mycards, cards)
 
 s.close
 
