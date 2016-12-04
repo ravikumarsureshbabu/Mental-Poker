@@ -1,20 +1,65 @@
 from pokercards import cards
-from crypto import encrypt, decrypt
+from crypto import *
+from Utils import *
+
 import socket
+import pickle
+
 
 TCP_IP = '127.0.0.1'
-TCP_PORT = 5005
+TCP_PORT = 5001
 BUFFER_SIZE = 1024
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# connect to ALice
 s.connect((TCP_IP, TCP_PORT))
-s.send("73".encode())
+
+# generate prime number
+prime = generate_prime(10000,20000)
+
+#send prime to Alice
+send(s,prime)
+
+
+# generate encryption key such that gcd(encryptionkey,prime) == 1 
+# generate decryption key such that (encyptionkey)(decyptionkey) = 1 mod(prime)
+en_key, de_key = generate_keys(prime)
+
+# receive encrypted cards from Alice
+encryted_card_numbers = receive(s)
+print(encryted_card_numbers)
+
+# pick random 5 cards for me
+mycards = pick5cards(encryted_card_numbers)
+# pick random 5 cards for alice
+alicecards = pick5cards(encryted_card_numbers)
+
+#print(mycards)
+#print(alicecards)
+
+# encrypt my cards
+for i,card in enumerate(mycards):
+	mycards[i] = encrypt(card, en_key, prime)
+
+#print(mycards)
+#send alice cards
+send(s, alicecards)
+#send my cards
+send(s, mycards)
+
+# receive my decrypted cards from alice
+mycards = receive(s)
+
+# decrypt my cards
+for index, card in enumerate(mycards):
+	mycards[index] = decrypt(card, de_key, prime)
+
+print(mycards)
 
 s.close
-# connect to ALice
-# generate prime number
-# send it to Alice
-# geberate encyption key
-# generate decyption key 
+
+
+
+
 
 

@@ -33,6 +33,8 @@ def generate_keys(prime):
         d = generate_decryption_key(prime-1,e)
         if d != None:
             return e,d
+def isPrime(Number):
+    return 2 in [Number,2**Number%Number]
 
 def generate_prime(p,q):
     primes = [i for i in range(p,q) if isPrime(i)]
