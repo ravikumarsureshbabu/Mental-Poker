@@ -1,6 +1,7 @@
 from pokercards import cards
 from crypto import *
 from Utils import *
+from poker import playPoker
 
 import socket
 import pickle
@@ -50,8 +51,12 @@ mycards = receive(s)
 for index, card in enumerate(mycards):
 	mycards[index] = decrypt(card, de_key, prime)
 
-print("My Cards are")
-printCards(mycards, cards)
+#print("My Cards are")
+#printCards(mycards, cards)
+
+
+#playPoker(mycards, othercards, me, other, socket, de_key, prime)
+playPoker(mycards, alicecards, "Bob", "Alice", s, de_key, prime)
 
 s.close
 

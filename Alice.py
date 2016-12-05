@@ -1,6 +1,7 @@
 from pokercards import cards
 from crypto import encrypt, decrypt, generate_keys
 from Utils import *
+from poker import playPoker
 
 import socket
 import pickle
@@ -51,11 +52,12 @@ for index, card in enumerate(bobcards):
 # send bob cards to bob
 send(conn, bobcards)
 
-print("My Cards are")
-printCards(mycards, cards)
+#print("My Cards are")
+#printCards(mycards, cards)
 
 
-
+#playPoker(mycards, othercards, me, other, socket, de_key, prime)
+playPoker(mycards, bobcards, "Alice", "Bob", conn, de_key, prime)
 
 conn.close()
 s.close()
